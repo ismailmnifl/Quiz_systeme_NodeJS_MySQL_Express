@@ -31,7 +31,9 @@
     </div>
     <form action="/auth/login" method="post">
         <h3>Login Here</h3>
-
+         {{#if message}}
+        <h4 class="message">{{message}}</h4>
+        {{/if}}
         <label for="username">Email</label>
         <input type="text" placeholder="Enter your email" name="email" id="email">
 
@@ -39,10 +41,6 @@
         <input type="password" placeholder="Enter your password" name="password" id="password">
 
         <button>Log In</button>
-        <div class="social">
-          <div class="go"><i class="fab fa-google"></i>  Google</div>
-          <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
-        </div>
     </form>
 </body>
 </html>

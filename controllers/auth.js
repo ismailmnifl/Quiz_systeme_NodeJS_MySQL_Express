@@ -2,8 +2,6 @@ const mysql = require('mysql');
 const secureEnv = require('secure-env');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { enable } = require('express/lib/application');
-
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
@@ -13,7 +11,6 @@ const db = mysql.createConnection({
     user: global.env.DATABASE_USER,
     password: global.env.DATABASE_PASSWORD,
     database: global.env.DATABASE
-
 });
 
 exports.register = (req, res) => {
@@ -57,6 +54,24 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    console.log(req.body);
-    res.send('working');
+    let email = req.body.email;
+    let password = req.body.password;
+
+    db.query('SELECT * from users where email = ? AND password = ?', [email, password], (error, results) => {
+
+        console.log(results);
+
+        if (error) {
+            console.log(error);
+        }
+        if (results.length > 0) {
+            return res.render('login', {
+                message: 'welcome your are logged in'
+            });
+        } else {
+            return res.render('login', {
+                message: 'wrong email and password combination'
+            });
+        }
+    });
 }
