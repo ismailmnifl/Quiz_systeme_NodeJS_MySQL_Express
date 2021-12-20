@@ -2,6 +2,7 @@ const mysql = require('mysql');
 const secureEnv = require('secure-env');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const session = require('express-session');
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
@@ -23,6 +24,11 @@ exports.register = (req, res) => {
         confirmPass
     } = req.body;
 
+    if (req.body.username == "" || req.body.email == "" || req.body.password == "" || req.body.confirmPass == "") {
+        return res.render('register', {
+            message: 'All the field are required'
+        })
+    }
     db.query('SELECT email from users WHERE email = ?', [email], async(error, results) => {
         if (error) {
             console.log(error);
@@ -57,21 +63,35 @@ exports.login = (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
 
-    db.query('SELECT * from users where email = ? AND password = ?', [email, password], (error, results) => {
+    db.query('SELECT * from users where email = ?', [email], async(error, results) => {
 
-        console.log(results);
 
         if (error) {
             console.log(error);
         }
         if (results.length > 0) {
-            return res.render('login', {
-                message: 'welcome your are logged in'
-            });
+            console.log(results);
+            let hashedPass = await bcrypt.compare(password, results[0].password);
+            if (hashedPass) {
+
+                req.session.isLoggedIn = results[0].name;
+                console.log(req.session.isLoggedIn);
+                res.locals.logged = {
+                    status: true,
+                    name: req.session.isLoggedIn
+                }
+                res.redirect('/dashboard');
+            }
+
         } else {
             return res.render('login', {
                 message: 'wrong email and password combination'
             });
         }
     });
+}
+
+exports.logout = (req, res) => {
+    delete req.session.isLoggedIn;
+    res.redirect(req.get('referer'));
 }

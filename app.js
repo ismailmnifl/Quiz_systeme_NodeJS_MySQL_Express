@@ -1,16 +1,25 @@
 const express = require('express');
 const mysql = require('mysql');
-const { rootCertificates } = require('tls');
 const dotenv = require('dotenv');
 const path = require('path');
 const secureEnv = require('secure-env');
-
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 dotenv.config({ path: './.env' });
 
 const app = express();
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
+const oneDay = 1000 * 60 * 60 * 24;
 
+//session middleware
+app.use(session({
+    secret: "thisismysecrctekeyfhrgfgrfrty84fwir767",
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false
+}))
+app.use(cookieParser());
 const db = mysql.createConnection({
 
     host: global.env.DATABASE_HOST,
