@@ -6,6 +6,8 @@ const secureEnv = require('secure-env');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 dotenv.config({ path: './.env' });
+const ejs = require('ejs');
+
 
 const app = express();
 
@@ -38,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.set('view engine', 'hbs');
+
 
 db.connect((error) => {
     if (error) {

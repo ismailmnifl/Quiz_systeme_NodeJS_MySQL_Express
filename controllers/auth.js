@@ -3,6 +3,7 @@ const secureEnv = require('secure-env');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
+const http = require('http');
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
@@ -46,7 +47,7 @@ exports.register = (req, res) => {
         let hashedPassword = await bcrypt.hash(password, 8);
         console.log(hashedPassword);
 
-        db.query('INSERT INTO users SET ?', { name: username, email: email, password: hashedPassword }, (error, results) => {
+        db.query('INSERT INTO users SET ?', { name: username, email: email, password: hashedPassword, role_index: 2 }, (error, results) => {
             if (error) {
                 console.log(error);
             } else {
@@ -62,7 +63,11 @@ exports.register = (req, res) => {
 exports.login = (req, res) => {
     let email = req.body.email;
     let password = req.body.password;
-
+    if (email == "" || password == "") {
+        return res.render('login', {
+            message: ' all the field are required'
+        })
+    }
     db.query('SELECT * from users where email = ?', [email], async(error, results) => {
 
 
@@ -75,12 +80,10 @@ exports.login = (req, res) => {
             if (hashedPass) {
 
                 req.session.isLoggedIn = results[0].name;
-                console.log(req.session.isLoggedIn);
-                res.locals.logged = {
-                    status: true,
-                    name: req.session.isLoggedIn
-                }
+                res.locals.message = 'hello';
                 res.redirect('/dashboard');
+                res.end();
+
             }
 
         } else {

@@ -51,7 +51,7 @@ form {
     border: 2px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
     padding: 50px 35px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 form * {
@@ -71,7 +71,7 @@ form h3 {
 
 label {
     display: block;
-    margin-top: 30px;
+    margin-top: 15px;
     font-size: 16px;
     font-weight: 500;
 }
@@ -93,7 +93,7 @@ input {
 }
 
 button {
-    margin-top: 30px;
+    margin-top: 15px;
     width: 100%;
     background-color: #ffffff;
     color: #080710;
@@ -102,11 +102,6 @@ button {
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
-}
-
-.social {
-    margin-top: 30px;
-    display: flex;
 }
 
 .social div {
@@ -119,18 +114,6 @@ button {
     text-align: center;
 }
 
-.social div:hover {
-    background-color: rgba(255, 255, 255, 0.47);
-}
-
-.social .fb {
-    margin-left: 25px;
-}
-
-.social i {
-    margin-right: 4px;
-}
-
 header {
     backdrop-filter: blur(10px);
 }
@@ -141,6 +124,7 @@ header {
     background-color: red;
     color: white;
     text-align: center;
+    margin-top: 15px;
     padding: 10px;
 }
 

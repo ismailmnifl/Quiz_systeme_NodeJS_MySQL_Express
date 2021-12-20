@@ -20,10 +20,11 @@
             <nav>
                 <ul>
                     <li><a href="/">Home</a></li>
-                    {{#if logged.status}}
+                    
+                    {{#if message}}
                     <li><a href="/logout">logout</a></li>
                     {{else}}
-                    <li><a href="/login">Login</a></li>
+                    <li><a href="/login">login</a></li>
                     {{/if}}
                     <li><a href="/register">Register</a></li>
                 </ul>
@@ -45,5 +46,8 @@
 
     </div>
 </body>
+<script>
+
+</script>
 
 </html>
