@@ -1,5 +1,7 @@
 const express = require("express");
 const auth = require('../middleware/authMiddleware');
+const authController = require('../controllers/auth');
+
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -16,4 +18,7 @@ router.get('/register', (req, res) => {
 router.get('/dashboard', auth, (req, res) => {
     res.render('dashboard');
 });
+
+router.get('/logout', authController.logout);
+
 module.exports = router;

@@ -81,9 +81,11 @@ exports.login = (req, res) => {
 
                 req.session.isLoggedIn = results[0].name;
                 res.locals.message = 'hello';
-                res.redirect('/dashboard');
-                res.end();
 
+                res.locals.message = true;
+                var string = encodeURIComponent(true);
+                res.redirect('/dashboard?message=' + string);
+                res.end();
             }
 
         } else {
@@ -95,6 +97,8 @@ exports.login = (req, res) => {
 }
 
 exports.logout = (req, res) => {
+
     delete req.session.isLoggedIn;
-    res.redirect(req.get('referer'));
+    res.redirect('/login');
+    res.end();
 }
