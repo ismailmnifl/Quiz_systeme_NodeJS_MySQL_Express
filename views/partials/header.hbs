@@ -1,11 +1,45 @@
-<ul>
+{{!-- <ul>
     <li><a href="/">Home</a></li>
     {{#if username}}
-    <li><a href="/auth/logout">Logout</a></li>
-        <li><a href="#">{{link}}</a></li>
 
+    <li><a href="/auth/logout">Logout</a></li>
+    {{#if role}}
+
+    <li><a href="/dashboard">Teacher Space</a></li>
+    {{else}}
+    
+    <li><a href="/studentSpace">Student Space</a></li>
+
+    {{/if}}
     {{else}}
     <li><a href="/login">Login</a></li>
     <li><a href="/register">Register</a></li>
     {{/if}}
+     
 </ul>
+{{#if username}}
+<div class="usernameHolder">{{username}}</div>
+{{/if}}
+
+ --}}
+<div class="topnav" id="myTopnav">
+ <a href="/">Home</a>
+    {{#if username}}
+
+    <a href="/auth/logout">Logout</a>
+    {{#if role}}
+
+    <a href="/dashboard">Teacher Space</a>
+    {{else}}
+    
+    <a href="/studentSpace">Student Space</a>
+
+    {{/if}}
+    {{else}}
+    <a href="/login">Login</a>
+    <a href="/register">Register</a>
+    {{/if}}
+  <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+</div>

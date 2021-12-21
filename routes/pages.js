@@ -19,14 +19,15 @@ router.get('/register', (req, res) => {
 router.get('/dashboard', auth, (req, res) => {
     res.render('dashboard', {
         username: req.session.isLoggedIn,
-        link: 'dashboard'
+        role: true
     });
 });
 
 router.get('/studentSpace', auth, (req, res) => {
     res.render('studentSpace', {
         username: req.session.isLoggedIn,
-        link: 'studentSpace'
+        role: false
+
     });
 });
 

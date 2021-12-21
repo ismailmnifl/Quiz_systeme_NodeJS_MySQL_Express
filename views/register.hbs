@@ -17,13 +17,7 @@
 <body>
     <header>
         <div id="abc">
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
-                </ul>
-            </nav>
+             {{> header}}
         </div>
     </header>
 
@@ -33,7 +27,7 @@
     </div>
     <div class="wrapper">
         <form action="/auth/register" method="post">
-            <h3>Login Here</h3>
+            <h3>Register Here</h3>
             {{#if message}}
             <h4 class="message">{{message}}</h4>
 
