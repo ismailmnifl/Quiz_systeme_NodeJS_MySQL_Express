@@ -1,9 +1,7 @@
 const mysql = require('mysql');
 const secureEnv = require('secure-env');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const session = require('express-session');
-const http = require('http');
+
 
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
@@ -79,14 +77,14 @@ exports.login = (req, res) => {
             console.log(results);
             let hashedPass = await bcrypt.compare(password, results[0].password);
             if (hashedPass) {
-                if (results[0].role_index == 2) {
+                if (results[0].role_index == 1) {
                     delete req.session.isLoggedIn;
 
                     req.session.isLoggedIn = results[0].name;
 
                     res.redirect('/dashboard');
                     res.end();
-                } else if (results[0].role_index == 1) {
+                } else if (results[0].role_index == 2) {
 
                     delete req.session.isLoggedIn;
 
