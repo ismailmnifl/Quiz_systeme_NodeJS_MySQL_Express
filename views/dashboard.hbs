@@ -8,8 +8,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/home.css">
-    <link rel="stylesheet" href="/navbar.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/navbar.css">
 
     <title>Dashboard</title>
 </head>
@@ -17,9 +17,9 @@
 <body>
     <header>
         <div id="abc">
-            
-                {{> header}}
-            
+
+            {{> header}}
+
         </div>
     </header>
 
@@ -31,13 +31,43 @@
 
 
         <div class="container">
-            <h2>Welcome back Mr. {{username}}</h2>
-            
-            <button id="btn">View more</button>
+            <div class="btnsContainer">
+                <button id="AddQuestionBtn">Add Question</button>
+                <button id="QuestionListBtn">Question List</button>
+            </div>
+            <div id="addQuestion" class="block addQuestion">
+                <div class="AddQuestionWrapper">
+                    <form>
+                        <h3>INSERT A QUESTION</h3>
+                        <label for="question">Question</label>
+                        <input type="text" placeholder="Enter the Question" name="question" class="inputText"
+                            id="question">
+                             <input type="text" placeholder="Enter the Correct Answer" name="question" class="inputText"
+                            id="question">
+                        <div class="nanswersWrapper">
+                            <input type="number" placeholder="Number of answers" name="nAnswers"
+                                id="nAnswers">
+                                <input type="button" id="divBtn" style="position: relative;right:5px;" value="Submit">
+
+
+                        </div>
+                            <div id="inputAnswers" class="inputAnswers">
+
+                            </div>
+                        <button type="submit" style="position: relative;right:5px;">Log In</button>
+                    </form>
+                </div>
+            </div>
+            <div id="questionsList" class="block questionsList"></div>
+
         </div>
 
     </div>
-        <script src="/navbar.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/toggle.js"></script>
+    <script src="/js/dashboard.js"></script>
+    
+
 
 </body>
 

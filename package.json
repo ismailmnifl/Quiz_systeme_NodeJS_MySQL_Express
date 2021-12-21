@@ -12,7 +12,7 @@
         "url": "git+https://github.com/ismailmnifl/Quizz-systeme-nodeJS-MySQL-API.git"
     },
     "keywords": [],
-    "author": "",
+    "author": "ismail MNIFIL",
     "license": "MIT",
     "dependencies": {
         "bcryptjs": "^2.4.3",
@@ -23,7 +23,6 @@
         "express-handlebars": "^6.0.2",
         "express-session": "^1.17.2",
         "hbs": "^4.2.0",
-        "jsonwebtoken": "^8.5.1",
         "mysql": "^2.18.1",
         "nodemon": "^2.0.15",
         "secure-env": "^1.2.0"

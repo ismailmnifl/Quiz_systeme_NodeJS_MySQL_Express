@@ -81,6 +81,7 @@ exports.login = (req, res) => {
                     delete req.session.isLoggedIn;
 
                     req.session.isLoggedIn = results[0].name;
+                    req.session.role = true;
 
                     res.redirect('/dashboard');
                     res.end();
@@ -89,6 +90,8 @@ exports.login = (req, res) => {
                     delete req.session.isLoggedIn;
 
                     req.session.isLoggedIn = results[0].name;
+                    req.session.role = false;
+
                     res.redirect('/studentSpace');
                     res.end();
                 }

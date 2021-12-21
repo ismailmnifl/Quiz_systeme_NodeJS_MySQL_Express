@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
     res.render('index', {
         username: req.session.isLoggedIn,
+        role: req.session.role
     });
 });
 router.get('/login', (req, res) => {
@@ -19,14 +20,14 @@ router.get('/register', (req, res) => {
 router.get('/dashboard', auth, (req, res) => {
     res.render('dashboard', {
         username: req.session.isLoggedIn,
-        role: true
+        role: req.session.role
     });
 });
 
 router.get('/studentSpace', auth, (req, res) => {
     res.render('studentSpace', {
         username: req.session.isLoggedIn,
-        role: false
+        role: req.session.role
 
     });
 });
