@@ -43,8 +43,8 @@ body {
 }
 
 .container {
-    height: 520px;
-    width: 800px;
+    height: auto;
+    width: 80%;
     background-color: rgba(255, 255, 255, 0.13);
     border-radius: 10px;
     backdrop-filter: blur(10px);

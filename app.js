@@ -7,6 +7,7 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 dotenv.config({ path: './.env' });
 const ejs = require('ejs');
+const hbs = require('hbs');
 
 
 const app = express();
@@ -40,6 +41,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.set('view engine', 'hbs');
+//this required before view engine setup
+hbs.registerPartials(__dirname + '/views/partials');
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+
 
 
 db.connect((error) => {

@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const http = require('http');
 
+
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
 const db = mysql.createConnection({
@@ -78,14 +79,22 @@ exports.login = (req, res) => {
             console.log(results);
             let hashedPass = await bcrypt.compare(password, results[0].password);
             if (hashedPass) {
+                if (results[0].role_index == 2) {
+                    delete req.session.isLoggedIn;
 
-                req.session.isLoggedIn = results[0].name;
-                res.locals.message = 'hello';
+                    req.session.isLoggedIn = results[0].name;
 
-                res.locals.message = true;
-                var string = encodeURIComponent(true);
-                res.redirect('/dashboard?message=' + string);
-                res.end();
+                    res.redirect('/dashboard');
+                    res.end();
+                } else if (results[0].role_index == 1) {
+
+                    delete req.session.isLoggedIn;
+
+                    req.session.isLoggedIn = results[0].name;
+                    res.redirect('/studentSpace');
+                    res.end();
+                }
+
             }
 
         } else {
@@ -98,7 +107,10 @@ exports.login = (req, res) => {
 
 exports.logout = (req, res) => {
 
-    delete req.session.isLoggedIn;
-    res.redirect('/login');
-    res.end();
+    if (req.session.isLoggedIn) {
+        delete req.session.isLoggedIn;
+        res.redirect('/login');
+        res.end();
+    }
+
 }

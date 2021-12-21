@@ -11,14 +11,14 @@
     <link rel="stylesheet" href="/home.css">
     <link rel="stylesheet" href="/navbar.css">
 
-    <title>Dashboard</title>
+    <title>Home Page</title>
 </head>
 
 <body>
     <header>
         <div id="abc">
             <nav>
-                {{> header}}
+                 {{> header}}
             </nav>
         </div>
     </header>
@@ -31,26 +31,11 @@
 
 
         <div class="container">
-            <h2>this is the dashboard</h2>
-            <button id="btn">View more</button>
+            <h2>Welcome back Mr. ismail Mnifil</h2>
+            <button>View more</button>
         </div>
 
-    </div>
+
 </body>
-<script>
-    const queryString = window.location.search;
-
-    const urlParams = new URLSearchParams(queryString);
-
-    const loggedMessage = urlParams.get('message');
-
-    console.log(loggedMessage);
-    let loginLink = document.getElementById('loginLogout');
-    if (loggedMessage) {
-        loginLink.href = '/logout'
-        loginLink.innerHTML = "logout";
-    }
-
-</script>
 
 </html>
