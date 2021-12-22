@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/navbar.css">
@@ -38,9 +38,9 @@
             <div id="addQuestion" class="block addQuestion">
                 <div class="AddQuestionWrapper">
                     <form action="/teacher/insert/question" method="post">
-                    {{#if message}}
-                    <div class="greenMessage">{{message}}</div>
-                    {{/if}}
+                        {{#if message}}
+                        <div class="greenMessage">{{message}}</div>
+                        {{/if}}
                         <h3>INSERT A QUESTION</h3>
                         <div id="message" class="message"></div>
 
@@ -58,11 +58,33 @@
                         <div id="inputAnswers" class="inputAnswers">
 
                         </div>
-                        <button type="submit" style="position: relative;right:5px;">Log In</button>
+                        <button type="submit" style="position: relative;right:5px;">Submit</button>
                     </form>
                 </div>
             </div>
-            <div id="questionsList" class="block questionsList"></div>
+            <div id="questionsList" class="block questionsList">
+                <div class="questionListWrapper">
+                   
+
+                    {{#each allQuestions}}
+                    <div class="singleQuestion">
+                        <div class="questionHeader">
+                            <div class="questionIndex">question index : {{this.question_index}}</div>
+                            <div class="removeSymbole"><a href="/teacher/delete/question/{{this.question_index}}"><i class="far fa-trash-alt"></i></a></div>
+                        </div>
+                        <div class="body">Question body : {{this.question}}</div>
+
+                        <div class="questionCrrectAnswer">correct answer : {{this.responce}}</div>
+                        <div class="dateCreated">Date created : {{this.dateCreated}}</div>
+
+                    </div>
+                    
+                    {{/each}}
+
+
+                </div>
+                
+            </div>
 
         </div>
 
@@ -70,9 +92,6 @@
     <script src="/js/navbar.js"></script>
     <script src="/js/toggle.js"></script>
     <script src="/js/dashboard.js"></script>
-
-
-
 </body>
 
 </html>

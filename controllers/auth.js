@@ -60,8 +60,12 @@ exports.register = (req, res) => {
 }
 
 exports.login = (req, res) => {
-    let email = req.body.email;
-    let password = req.body.password;
+
+    const {
+        email,
+        password
+    } = req.body;
+
     if (email == "" || password == "") {
         return res.render('login', {
             message: ' all the field are required'

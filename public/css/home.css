@@ -222,6 +222,14 @@ header {
     justify-content: center;
 }
 
+.addQuestion {
+    display: none;
+}
+
+.questionsList {
+    display: none;
+}
+
 .btnsContainer {
     display: flex;
     align-items: center;
@@ -235,6 +243,14 @@ header {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 3px;
+}
+
+.questionListWrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .inputAnswers {
@@ -263,4 +279,52 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#questionList {
+    color: white;
+    list-style: none;
+}
+
+.singleQuestion {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.questionHeader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3px;
+}
+
+.singleQuestion {
+    background-color: rgba(255, 255, 255, 0.13);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    margin: 5px;
+    padding: 5px;
+    color: white;
+}
+
+.removeSymbole {
+    width: 30px;
+    height: 30px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: red;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.removeSymbole a {
+    text-decoration: none;
+    color: white;
 }
