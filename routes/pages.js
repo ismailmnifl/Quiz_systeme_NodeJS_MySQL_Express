@@ -28,7 +28,6 @@ router.get('/studentSpace', auth, (req, res) => {
     res.render('studentSpace', {
         username: req.session.isLoggedIn,
         role: req.session.role
-
     });
 });
 

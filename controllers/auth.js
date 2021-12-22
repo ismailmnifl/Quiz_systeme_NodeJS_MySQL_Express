@@ -79,15 +79,18 @@ exports.login = (req, res) => {
             if (hashedPass) {
                 if (results[0].role_index == 1) {
                     delete req.session.isLoggedIn;
+                    delete req.session.role;
+                    delete req.session.userId;
 
                     req.session.isLoggedIn = results[0].name;
                     req.session.role = true;
-
+                    req.session.userId = results[0].user_index;
                     res.redirect('/dashboard');
                     res.end();
                 } else if (results[0].role_index == 2) {
 
                     delete req.session.isLoggedIn;
+                    delete req.session.role;
 
                     req.session.isLoggedIn = results[0].name;
                     req.session.role = false;
@@ -110,6 +113,7 @@ exports.logout = (req, res) => {
 
     if (req.session.isLoggedIn) {
         delete req.session.isLoggedIn;
+        delete req.session.role;
         res.redirect('/login');
         res.end();
     }

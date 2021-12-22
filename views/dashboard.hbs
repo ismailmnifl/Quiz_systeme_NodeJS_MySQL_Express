@@ -37,23 +37,27 @@
             </div>
             <div id="addQuestion" class="block addQuestion">
                 <div class="AddQuestionWrapper">
-                    <form>
+                    <form action="/teacher/insert/question" method="post">
+                    {{#if message}}
+                    <div class="greenMessage">{{message}}</div>
+                    {{/if}}
                         <h3>INSERT A QUESTION</h3>
+                        <div id="message" class="message"></div>
+
                         <label for="question">Question</label>
                         <input type="text" placeholder="Enter the Question" name="question" class="inputText"
                             id="question">
-                             <input type="text" placeholder="Enter the Correct Answer" name="question" class="inputText"
-                            id="question">
+                        <input type="text" placeholder="Enter the Correct Answer" name="correctAnswer" class="inputText"
+                            id="correctAnswer">
                         <div class="nanswersWrapper">
-                            <input type="number" placeholder="Number of answers" name="nAnswers"
-                                id="nAnswers">
-                                <input type="button" id="divBtn" style="position: relative;right:5px;" value="Submit">
+                            <input type="number" placeholder="Number of answers" name="nAnswers" id="nAnswers">
+                            <input type="button" id="divBtn" style="position: relative;right:5px;" value="Submit">
 
 
                         </div>
-                            <div id="inputAnswers" class="inputAnswers">
+                        <div id="inputAnswers" class="inputAnswers">
 
-                            </div>
+                        </div>
                         <button type="submit" style="position: relative;right:5px;">Log In</button>
                     </form>
                 </div>
@@ -66,7 +70,7 @@
     <script src="/js/navbar.js"></script>
     <script src="/js/toggle.js"></script>
     <script src="/js/dashboard.js"></script>
-    
+
 
 
 </body>
