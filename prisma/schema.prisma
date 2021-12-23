@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model questions {
+  question_index Int        @id @default(autoincrement())
+  user_index     Int
+  test_index     Int
+  question       String     @db.VarChar(255)
+  dateCreated    DateTime   @default(now()) @db.Timestamp(0)
+  test           test       @relation(fields: [test_index], references: [test_index], onUpdate: Restrict, map: "questions_ibfk_1")
+  users          users      @relation(fields: [user_index], references: [user_index], onDelete: Cascade, map: "user_question_fk")
+  reponces       reponces[]
+
+  @@index([test_index], map: "test_index")
+  @@index([user_index], map: "user_question_fk")
+}
+
+model reponces {
+  responce_index Int       @id @default(autoincrement())
+  question_index Int
+  responce       String    @db.VarChar(255)
+  status         Boolean
+  dateCreated    DateTime  @default(now()) @db.Timestamp(0)
+  questions      questions @relation(fields: [question_index], references: [question_index], onDelete: Cascade, map: "question_responce_fk")
+
+  @@index([question_index], map: "question_responce_fk")
+}
+
+model roles {
+  role_index  Int     @id @default(autoincrement())
+  title       String  @db.VarChar(200)
+  description String  @db.VarChar(255)
+  users       users[]
+}
+
+model subject {
+  subject_index Int      @id @default(autoincrement())
+  title         String   @db.VarChar(255)
+  dateCreated   DateTime @default(now()) @db.Timestamp(0)
+  test          test[]
+}
+
+model test {
+  test_index    Int         @id @default(autoincrement())
+  referance     String      @db.VarChar(255)
+  subject_index Int
+  user_index    Int
+  dateCreated   DateTime    @default(now()) @db.Timestamp(0)
+  subject       subject     @relation(fields: [subject_index], references: [subject_index], onDelete: Cascade, map: "test_ibfk_1")
+  users         users       @relation(fields: [user_index], references: [user_index], onDelete: Cascade, map: "test_ibfk_2")
+  questions     questions[]
+
+  @@index([subject_index], map: "subject_index")
+  @@index([user_index], map: "user_index")
+}
+
+model users {
+  user_index Int         @id @default(autoincrement())
+  role_index Int
+  name       String      @db.VarChar(100)
+  email      String      @db.VarChar(100)
+  password   String      @db.VarChar(255)
+  roles      roles       @relation(fields: [role_index], references: [role_index], onUpdate: Restrict, map: "user_role_fk")
+  questions  questions[]
+  test       test[]
+
+  @@index([role_index], map: "user_role_fk")
+}

@@ -26,5 +26,8 @@
         "mysql": "^2.18.1",
         "nodemon": "^2.0.15",
         "secure-env": "^1.2.0"
+    },
+    "devDependencies": {
+        "prisma": "^3.7.0"
     }
 }

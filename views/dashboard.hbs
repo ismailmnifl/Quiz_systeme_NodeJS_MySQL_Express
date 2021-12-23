@@ -51,10 +51,16 @@
                             id="correctAnswer">
                         <div class="nanswersWrapper">
                             <input type="number" placeholder="Number of answers" name="nAnswers" id="nAnswers">
+                            
                             <input type="button" id="divBtn" style="position: relative;right:5px;" value="Submit">
 
 
                         </div>
+                        <select class="inputText" name="test" id="test">
+                            {{#each tests}}
+                                <option value="{{this.test_index}}">{{this.referance}}</option>
+                                {{/each}}
+                            </select>
                         <div id="inputAnswers" class="inputAnswers">
 
                         </div>
@@ -64,13 +70,14 @@
             </div>
             <div id="questionsList" class="block questionsList">
                 <div class="questionListWrapper">
-                   
+
 
                     {{#each allQuestions}}
                     <div class="singleQuestion">
                         <div class="questionHeader">
                             <div class="questionIndex">question index : {{this.question_index}}</div>
-                            <div class="removeSymbole"><a href="/teacher/delete/question/{{this.question_index}}"><i class="far fa-trash-alt"></i></a></div>
+                            <div class="removeSymbole"><a href="/teacher/delete/question/{{this.question_index}}"><i
+                                        class="far fa-trash-alt"></i></a></div>
                         </div>
                         <div class="body">Question body : {{this.question}}</div>
 
@@ -78,12 +85,12 @@
                         <div class="dateCreated">Date created : {{this.dateCreated}}</div>
 
                     </div>
-                    
+
                     {{/each}}
 
 
                 </div>
-                
+
             </div>
 
         </div>

@@ -10,6 +10,7 @@ const db = mysql.createConnection({
     password: global.env.DATABASE_PASSWORD,
     database: global.env.DATABASE
 });
+
 const getAllquestion = (userID) => {
 
     return new Promise((resolve, reject) => {
@@ -37,7 +38,8 @@ const getAllquestion = (userID) => {
 exports.getAllquestion = getAllquestion;
 exports.InsertQuestion = (req, res) => {
     console.log(req.body);
-    db.query('INSERT INTO questions SET ?', { user_index: req.session.userId, question: req.body.question }, async(error, results) => {
+
+    db.query('INSERT INTO questions SET ?', { user_index: req.session.userId, question: req.body.question, test_index: req.body.test }, async(error, results) => {
         if (error) {
             console.log(error);
         } else {
@@ -57,7 +59,7 @@ exports.InsertQuestion = (req, res) => {
                                 });
                             }
                         }
-                    })
+                    });
                 }
             });
             let data = await getAllquestion(req.session.userId);
@@ -87,10 +89,11 @@ exports.deleteQuestion = (req, res) => {
                 allQuestions: data
             });
         }
-    })
+    });
 }
 
 const getAllTests = (userId) => {
+
     return new Promise((resolve, reject) => {
         db.query(`
         SELECT * FROM test INNER JOIN subject 
@@ -106,3 +109,66 @@ const getAllTests = (userId) => {
     })
 }
 exports.getAllTests = getAllTests;
+
+const insertNewTest = (req, res) => {
+
+    const {
+        referance,
+        subject
+    } = req.body;
+    db.query('INSERT INTO test SET ?', { referance: req.body.referance, subject_index: req.body.subject, user_index: req.session.userId }, async(error, results) => {
+        if (error) {
+            console.log(error);
+        } else {
+            let data = await getAllTests(req.session.userId);
+            let subject = await getAllSubject(req.session.userId);
+            res.render('manageTest', {
+                message: "the test has been added succesfuly",
+                username: req.session.isLoggedIn,
+                role: req.session.role,
+                allTheTests: data,
+                allSubject: subject
+
+            });
+            console.log(results);
+        }
+    });
+}
+exports.insertNewTest = insertNewTest;
+
+
+const getAllSubject = (req, res) => {
+    return new Promise((resolve, reject) => {
+        db.query(`
+        SELECT * FROM subject`, (error, results) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(results);
+
+        });
+    })
+}
+exports.getAllSubject = getAllSubject;
+
+const deleteTest = (req, res) => {
+    console.log(req.params.testId);
+    db.query('delete from test WHERE test.test_index = ?', [req.params.testId], async(error, results) => {
+        if (error) {
+            console.log(error);
+        } else {
+            let data = await getAllTests(req.session.userId);
+            let subject = await getAllSubject(req.session.userId);
+            res.render('manageTest', {
+                message: "the test has been added succesfuly",
+                username: req.session.isLoggedIn,
+                role: req.session.role,
+                allTheTests: data,
+                allSubject: subject
+
+            });
+        }
+    })
+}
+exports.deleteTest = deleteTest;

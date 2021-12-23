@@ -41,7 +41,7 @@
 }
 
 .responsive-table .col-2 {
-    flex-basis: 25%;
+    flex-basis: 20%;
 }
 
 .responsive-table .col-3 {
@@ -50,6 +50,11 @@
 
 .responsive-table .col-4 {
     flex-basis: 40%;
+}
+
+.responsive-table .col-5 {
+    flex-basis: 10%;
+    text-align: center;
 }
 
 @media all and (max-width: 767px) {

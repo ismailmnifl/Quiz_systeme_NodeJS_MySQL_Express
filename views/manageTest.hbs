@@ -39,30 +39,71 @@
             <h2>Welcome back teacher : {{username}}</h2>
 
             <div id="test-list" class="tablecontainer">
-                <input type="text" class="search inputText" placeholder="filter by name" />
+                <div class="headerWrapper">
+                    <input style="width: 200px;" type="text" class="search inputText" placeholder="filter by name" />
+                    <button style="width: 200px;" id="myBtn">Creat Test</button>
+                </div>
+
                 <ul class="responsive-table">
                     <li class="table-header">
                         <div class="col col-1">Test Index</div>
                         <div class="col col-2">referance</div>
                         <div class="col col-3">test subject</div>
                         <div class="col col-4">date Created</div>
+                        <div class="col col-5">Action</div>
                     </li>
                 </ul>
                 <ul class="responsive-table list">
-                     {{#each allTheTests}}
+                    {{#each allTheTests}}
                     <li class="table-row">
                         <div class="col col-1" data-label="Test Index">{{this.test_index}}</div>
                         <div class="col col-2 name" data-label="referance">{{this.referance}}</div>
                         <div class="col col-3" data-label="test subject">{{this.title}}</div>
                         <div class="col col-4" data-label="date Created">{{this.dateCreated}}</div>
+                        <div class="col col-5" data-label="Action">
+                            <div class="removeSymbole">
+                                <a href="/teacher/delete/test/{{this.test_index}}">
+                                    <i class="far fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+
                     </li>
                     {{/each}}
-                   
+
                 </ul>
                 <ul class="pagination"></ul>
             </div>
         </div>
+        <div id="myModal" class="modal">
 
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modalContainer">
+                    <div class="AddQuestionWrapper">
+                        <form action="/teacher/insert/test" method="post">
+                            {{#if insertMessage}}
+                            <div class="greenMessage">{{insertMessage}}</div>
+                            {{/if}}
+                            <h3>INSERT A Test</h3>
+                            <div id="message" class="message"></div>
+
+                            <input type="text" placeholder="Enter test referance" name="referance" class="inputText"
+                                id="referance">
+
+                            <select class="inputText" name="subject" id="subject">
+                                {{#each allSubject}}
+                                <option value="{{this.subject_index}}">{{this.title}}</option>
+                                {{/each}}
+                            </select>
+                            <button type="submit" style="position: relative;right:5px;">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <script src="/js/navbar.js"></script>
         <script>
             var monkeyList = new List('test-list', {
@@ -70,6 +111,33 @@
                 page: 3,
                 pagination: true
             });
+        </script>
+        <script>
+            // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks the button, open the modal 
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
         </script>
 </body>
 

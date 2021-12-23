@@ -118,6 +118,7 @@ exports.logout = (req, res) => {
     if (req.session.isLoggedIn) {
         delete req.session.isLoggedIn;
         delete req.session.role;
+        delete req.session.userId;
         res.redirect('/login');
         res.end();
     }
