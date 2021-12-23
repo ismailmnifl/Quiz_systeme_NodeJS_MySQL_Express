@@ -62,7 +62,7 @@ exports.InsertQuestion = (req, res) => {
             });
             let data = await getAllquestion(req.session.userId);
             res.render('dashboard', {
-                message: "Question data has been saved",
+                insertMessage: "Question data has been saved",
                 username: req.session.isLoggedIn,
                 role: req.session.role,
                 allQuestions: data
