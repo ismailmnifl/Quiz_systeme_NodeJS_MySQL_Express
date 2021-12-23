@@ -30,12 +30,12 @@ router.get('/dashboard', auth, async(req, res) => {
 });
 router.get('/manageTest', auth, async(req, res) => {
 
-    let data = await teacherController.getAllquestion(req.session.userId);
+    let data = await teacherController.getAllTests(req.session.userId);
     console.log(data);
     res.render('manageTest', {
         username: req.session.isLoggedIn,
         role: req.session.role,
-        allQuestions: data
+        allTheTests: data
 
     });
 });

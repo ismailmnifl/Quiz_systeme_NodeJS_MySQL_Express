@@ -89,3 +89,20 @@ exports.deleteQuestion = (req, res) => {
         }
     })
 }
+
+const getAllTests = (userId) => {
+    return new Promise((resolve, reject) => {
+        db.query(`
+        SELECT * FROM test INNER JOIN subject 
+        on test.subject_index = subject.subject_index 
+        where user_index = ${userId}`, (error, results) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(results);
+
+        });
+    })
+}
+exports.getAllTests = getAllTests;

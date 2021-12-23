@@ -8,8 +8,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/home.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+    <link rel="stylesheet" href="/css/manage.css">
     <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/table.css">
+
 
     <title>Home Page</title>
 </head>
@@ -17,9 +22,9 @@
 <body>
     <header>
         <div id="abc">
-        
-                 {{> header}}
-            
+
+            {{> header}}
+
         </div>
     </header>
 
@@ -32,11 +37,40 @@
 
         <div class="container">
             <h2>Welcome back teacher : {{username}}</h2>
-            <button>View more</button>
+
+            <div id="test-list" class="tablecontainer">
+                <input type="text" class="search inputText" placeholder="filter by name" />
+                <ul class="responsive-table">
+                    <li class="table-header">
+                        <div class="col col-1">Test Index</div>
+                        <div class="col col-2">referance</div>
+                        <div class="col col-3">test subject</div>
+                        <div class="col col-4">date Created</div>
+                    </li>
+                </ul>
+                <ul class="responsive-table list">
+                     {{#each allTheTests}}
+                    <li class="table-row">
+                        <div class="col col-1" data-label="Test Index">{{this.test_index}}</div>
+                        <div class="col col-2 name" data-label="referance">{{this.referance}}</div>
+                        <div class="col col-3" data-label="test subject">{{this.title}}</div>
+                        <div class="col col-4" data-label="date Created">{{this.dateCreated}}</div>
+                    </li>
+                    {{/each}}
+                   
+                </ul>
+                <ul class="pagination"></ul>
+            </div>
         </div>
 
-    <script src="/js/navbar.js"></script>
-
+        <script src="/js/navbar.js"></script>
+        <script>
+            var monkeyList = new List('test-list', {
+                valueNames: ['name'],
+                page: 3,
+                pagination: true
+            });
+        </script>
 </body>
 
 </html>
