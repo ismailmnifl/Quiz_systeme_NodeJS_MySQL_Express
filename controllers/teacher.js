@@ -3,6 +3,12 @@ const secureEnv = require('secure-env');
 const bcrypt = require('bcryptjs');
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
+
+//setting up prisma envirement
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
 const db = mysql.createConnection({
 
     host: global.env.DATABASE_HOST,
@@ -11,19 +17,29 @@ const db = mysql.createConnection({
     database: global.env.DATABASE
 });
 
-const getAllquestion = (userID) => {
+const getAllquestion = async(userId) => {
 
+
+    /* const getUser = await prisma.users.findMany({
+        where: {
+            user_index: userId,
+        },
+        include: {
+            questions: true,
+        },
+    })
+    return getUser; */
     return new Promise((resolve, reject) => {
         db.query(`
-        SELECT * FROM questions
-        INNER JOIN reponces
-        ON reponces.question_index = questions.question_index
-        INNER JOIN users
-        ON users.user_index = questions.user_index
-        where reponces.status = true
-        AND users.user_index = ${userID}
+            SELECT * FROM questions
+            INNER JOIN reponces
+            ON reponces.question_index = questions.question_index
+            INNER JOIN users
+            ON users.user_index = questions.user_index
+            where reponces.status = true
+            AND users.user_index = ${userId}
     
-    `, (error, results) => {
+        `, (error, results) => {
             if (error) {
                 reject(error);
                 return;

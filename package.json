@@ -5,8 +5,17 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "dev": "nodemon --exec babel-node app.js",
+        "migrate": "prisma migrate dev --name init",
+        "gen": "prisma generate",
+        "studio": "prisma studio",
+        "seed": "node prisma/seed.js",
+        "reset": "prisma migrate reset --force",
+        "db": "npm run reset && npm run migrate"
     },
+
+
     "repository": {
         "type": "git",
         "url": "git+https://github.com/ismailmnifl/Quizz-systeme-nodeJS-MySQL-API.git"
@@ -15,6 +24,7 @@
     "author": "ismail MNIFIL",
     "license": "MIT",
     "dependencies": {
+        "@prisma/client": "^3.7.0",
         "bcryptjs": "^2.4.3",
         "cookie-parser": "^1.4.6",
         "dotenv": "^10.0.0",

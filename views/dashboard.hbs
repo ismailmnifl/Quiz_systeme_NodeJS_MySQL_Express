@@ -51,16 +51,16 @@
                             id="correctAnswer">
                         <div class="nanswersWrapper">
                             <input type="number" placeholder="Number of answers" name="nAnswers" id="nAnswers">
-                            
+
                             <input type="button" id="divBtn" style="position: relative;right:5px;" value="Submit">
 
 
                         </div>
                         <select class="inputText" name="test" id="test">
                             {{#each tests}}
-                                <option value="{{this.test_index}}">{{this.referance}}</option>
-                                {{/each}}
-                            </select>
+                            <option value="{{this.test_index}}">{{this.referance}}</option>
+                            {{/each}}
+                        </select>
                         <div id="inputAnswers" class="inputAnswers">
 
                         </div>

@@ -2,6 +2,11 @@ const mysql = require('mysql');
 const secureEnv = require('secure-env');
 const bcrypt = require('bcryptjs');
 
+//setting up prisma envirement
+const { PrismaClient } = require('@prisma/client');
+
+const prisma = new PrismaClient();
+
 
 
 global.env = secureEnv({ secret: 'mySecretPassword' });
@@ -14,95 +19,89 @@ const db = mysql.createConnection({
     database: global.env.DATABASE
 });
 
-exports.register = (req, res) => {
-    console.log(req.body);
+exports.register = async(req, res) => {
 
-    const {
-        username,
-        email,
-        password,
-        confirmPass
-    } = req.body;
 
-    if (req.body.username == "" || req.body.email == "" || req.body.password == "" || req.body.confirmPass == "") {
+    let userUsername = req.body.username;
+    let userEmail = req.body.email;
+    let userPassword = req.body.password;
+    let userConfirmPass = req.body.confirmPass;
+
+
+
+    if (userUsername == "" || userEmail == "" || userPassword == "" || userConfirmPass == "") {
         return res.render('register', {
             message: 'All the field are required'
         })
     }
-    db.query('SELECT email from users WHERE email = ?', [email], async(error, results) => {
-        if (error) {
-            console.log(error);
-        }
-        if (results.length > 0) {
-            return res.render('register', {
-                message: 'the email you provided is already in use'
-            });
-        } else if (password !== confirmPass) {
-            return res.render('register', {
-                message: 'the two pasword fields are not adentical'
-            });
-        }
-
-        let hashedPassword = await bcrypt.hash(password, 8);
-        console.log(hashedPassword);
-
-        db.query('INSERT INTO users SET ?', { name: username, email: email, password: hashedPassword, role_index: 2 }, (error, results) => {
-            if (error) {
-                console.log(error);
-            } else {
-                res.render('register', {
-                    message: "you informations have been registered successfully"
-                });
-                console.log(results);
-            }
+    const selectedUser = await prisma.users.findFirst({ where: { email: userEmail } });
+    if (selectedUser) {
+        return res.render('register', {
+            message: 'the email you provided is already in use'
         });
+    } else if (userPassword !== userConfirmPass) {
+        return res.render('register', {
+            message: 'the two pasword fields are not adentical'
+        });
+    }
+    let hashedPassword = await bcrypt.hash(userPassword, 8);
+
+    const insertedUser = await prisma.users.create({
+        data: {
+            name: userUsername,
+            email: userEmail,
+            password: hashedPassword,
+            role_index: 2,
+        },
+    }).catch((error) => {
+        console.log(error);
     });
+    console.log(insertedUser);
+    if (insertedUser) {
+        return res.render('register', {
+            message: 'your infos have beer registered'
+        });
+    }
+
 }
 
-exports.login = (req, res) => {
+exports.login = async(req, res) => {
 
-    const {
-        email,
-        password
-    } = req.body;
 
-    if (email == "" || password == "") {
+    let userEmail = req.body.email;
+    let userPass = req.body.password;
+    if (userEmail == "" || userPass == "") {
         return res.render('login', {
-            message: ' all the field are required'
-        })
+            message: 'all fields are required'
+        });
     }
-    db.query('SELECT * from users where email = ?', [email], async(error, results) => {
 
+    const user = await prisma.users.findFirst({ where: { email: userEmail } });
+    console.log(user);
 
-        if (error) {
-            console.log(error);
-        }
-        if (results.length > 0) {
-            console.log(results);
-            let hashedPass = await bcrypt.compare(password, results[0].password);
-            if (hashedPass) {
-                if (results[0].role_index == 1) {
-                    delete req.session.isLoggedIn;
-                    delete req.session.role;
-                    delete req.session.userId;
+    if (user) {
+        let hashedPass = await bcrypt.compare(userPass, user.password);
+        if (hashedPass) {
+            if (user.role_index == 1) {
+                delete req.session.isLoggedIn;
+                delete req.session.role;
+                delete req.session.userId;
 
-                    req.session.isLoggedIn = results[0].name;
-                    req.session.role = true;
-                    req.session.userId = results[0].user_index;
-                    res.redirect('/dashboard');
-                    res.end();
-                } else if (results[0].role_index == 2) {
+                req.session.isLoggedIn = user.name;
+                req.session.role = true;
+                req.session.userId = user.user_index;
+                res.redirect('/dashboard');
+                res.end();
+            } else if (user.role_index == 2) {
 
-                    delete req.session.isLoggedIn;
-                    delete req.session.role;
+                delete req.session.isLoggedIn;
+                delete req.session.role;
 
-                    req.session.isLoggedIn = results[0].name;
-                    req.session.role = false;
+                req.session.isLoggedIn = user.name;
+                req.session.role = false;
 
-                    res.redirect('/studentSpace');
-                    res.end();
-                }
-
+                res.redirect('/studentSpace');
+                res.end();
             }
 
         } else {
@@ -110,7 +109,11 @@ exports.login = (req, res) => {
                 message: 'wrong email and password combination'
             });
         }
-    });
+    } else {
+        return res.render('login', {
+            message: 'wrong email and password combination'
+        });
+    }
 }
 
 exports.logout = (req, res) => {
