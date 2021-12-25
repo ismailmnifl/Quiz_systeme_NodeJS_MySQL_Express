@@ -23,12 +23,12 @@ router.get('/dashboard', auth, async(req, res) => {
 
     let data = await teacherController.getAllquestion(req.session.userId);
     let tests = await teacherController.getAllTests(req.session.userId);
-    console.log(data);
+    console.log(data.reponces);
     res.render('dashboard', {
         username: req.session.isLoggedIn,
         role: req.session.role,
         allQuestions: data,
-        tests: tests
+        tests: tests,
 
     });
 });
@@ -36,7 +36,7 @@ router.get('/manageTest', auth, async(req, res) => {
 
     let data = await teacherController.getAllTests(req.session.userId);
     let subject = await teacherController.getAllSubject();
-    console.log(data);
+
     res.render('manageTest', {
         username: req.session.isLoggedIn,
         role: req.session.role,

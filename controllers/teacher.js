@@ -3,7 +3,6 @@ const secureEnv = require('secure-env');
 const bcrypt = require('bcryptjs');
 global.env = secureEnv({ secret: 'mySecretPassword' });
 
-
 //setting up prisma envirement
 const { PrismaClient } = require('@prisma/client');
 
@@ -18,17 +17,16 @@ const db = mysql.createConnection({
 });
 
 const getAllquestion = async(userId) => {
-
-
-    /* const getUser = await prisma.users.findMany({
+    const getUserQuestions = await prisma.questions.findMany({
         where: {
             user_index: userId,
         },
         include: {
-            questions: true,
-        },
-    })
-    return getUser; */
+            reponces: true,
+        }
+    });
+    return getUserQuestions;
+    /* 
     return new Promise((resolve, reject) => {
         db.query(`
             SELECT * FROM questions
@@ -47,52 +45,59 @@ const getAllquestion = async(userId) => {
             resolve(results)
 
         });
-    })
+    }) */
 }
 
 
 exports.getAllquestion = getAllquestion;
-exports.InsertQuestion = (req, res) => {
-    console.log(req.body);
-
-    db.query('INSERT INTO questions SET ?', { user_index: req.session.userId, question: req.body.question, test_index: req.body.test }, async(error, results) => {
+exports.InsertQuestion = async(req, res) => {
+    const insertedQuestions = await prisma.questions.create({
+        data: { user_index: req.session.userId, question: req.body.question, test_index: Number(req.body.test) }
+    }).catch(async(error) => {
         if (error) {
             console.log(error);
-        } else {
-            db.query('SELECT question_index FROM questions ORDER BY question_index DESC LIMIT 1', (error, lastInserted) => {
-                if (error) {
-                    console.log(error);
-                } else {
-
-                    db.query('INSERT INTO reponces SET ?', { question_index: lastInserted[0].question_index, responce: req.body.correctAnswer, status: true }, (error, results) => {
-                        if (error) {
-                            console.log(error);
-                        } else {
-
-                            for (let index = 0; index < req.body.nAnswers; index++) {
-                                db.query('INSERT INTO reponces SET ?', { question_index: lastInserted[0].question_index, responce: req.body[`answers${index}`], status: false }, (error, results) => {
-
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-            let data = await getAllquestion(req.session.userId);
-            res.render('dashboard', {
-                insertMessage: "Question data has been saved",
-                username: req.session.isLoggedIn,
-                role: req.session.role,
-                allQuestions: data
-            });
-            console.log(results);
         }
     });
+
+    const lastInsertedQuestion = await prisma.questions.findFirst({
+            orderBy: {
+                question_index: "desc"
+            }
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    let num = lastInsertedQuestion.question_index
+
+    const insertedRightAnswer = await prisma.reponces.create({
+        data: {
+            question_index: num,
+            responce: req.body.correctAnswer,
+            status: true
+        }
+    });
+    for (let index = 0; index < req.body.nAnswers; index++) {
+        const insertedRightAnswer = await prisma.reponces.create({
+            data: {
+                question_index: num,
+                responce: req.body[`answers${index}`],
+                status: false
+            }
+        });
+    }
+    let data = await getAllquestion(req.session.userId);
+    return res.render('dashboard', {
+        insertMessage: "Question data has been saved",
+        username: req.session.isLoggedIn,
+        role: req.session.role,
+        allQuestions: data
+    });
+
 }
 
 exports.deleteQuestion = (req, res) => {
 
-    console.log(req.params.questionId);
     db.query('delete from questions WHERE questions.question_index = ?', [req.params.questionId], async(error, results) => {
         if (error) {
             console.log(error);
@@ -169,7 +174,7 @@ const getAllSubject = (req, res) => {
 exports.getAllSubject = getAllSubject;
 
 const deleteTest = (req, res) => {
-    console.log(req.params.testId);
+
     db.query('delete from test WHERE test.test_index = ?', [req.params.testId], async(error, results) => {
         if (error) {
             console.log(error);
