@@ -4,7 +4,6 @@ const login = require('../middleware/loginMiddleware');
 
 const teacherController = require('../controllers/teacher');
 const router = express.Router();
-
 router.get('/', (req, res) => {
     res.render('index', {
         username: req.session.isLoggedIn,
@@ -23,7 +22,7 @@ router.get('/dashboard', auth, async(req, res) => {
 
     let data = await teacherController.getAllquestion(req.session.userId);
     let tests = await teacherController.getAllTests(req.session.userId);
-    console.log(data.reponces);
+    //console.log(data.map(e => e.reponces.map(i => i.responce)));
     res.render('dashboard', {
         username: req.session.isLoggedIn,
         role: req.session.role,
@@ -52,4 +51,13 @@ router.get('/studentSpace', auth, (req, res) => {
     });
 });
 
+router.get('/manageSubject', auth, async(req, res) => {
+    let data = await teacherController.getAllSubject();
+    console.log(data);
+    res.render('manageSubject', {
+        username: req.session.isLoggedIn,
+        role: req.session.role,
+        allSubject: data
+    });
+});
 module.exports = router;

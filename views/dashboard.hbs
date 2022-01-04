@@ -75,15 +75,18 @@
                     {{#each allQuestions}}
                     <div class="singleQuestion">
                         <div class="questionHeader">
-                            <div class="questionIndex">question index : {{this.questions.question_index}}</div>
-                            <div class="removeSymbole"><a href="/teacher/delete/question/{{this.questions.question_index}}"><i
+                            <div class="questionIndex">question index : {{this.question_index}}</div>
+                            <div class="removeSymbole"><a href="/teacher/delete/question/{{this.question_index}}"><i
                                         class="far fa-trash-alt"></i></a></div>
                         </div>
                         
-                        <div class="body">Question body : {{this.questions.question}}</div>
+                        <div class="body">Question body : {{this.question}}</div>
+                                            {{#each this.reponces}}
 
-                        <div class="questionCrrectAnswer">correct answer : {{this.questions.responce}}</div>
-                        <div class="dateCreated">Date created : {{this.questions.dateCreated}}</div>
+                        <div class="questionCrrectAnswer">correct answer : {{this.responce}}</div>
+                                            {{/each}}
+
+                        <div class="dateCreated">Date created : {{this.dateCreated}}</div>
 
                     </div>
 

@@ -20,11 +20,20 @@ const getAllquestion = async(userId) => {
     const getUserQuestions = await prisma.questions.findMany({
         where: {
             user_index: userId,
+            reponces: {
+                some: {
+                    status: true,
+                },
+            },
         },
         include: {
-            reponces: true,
-        }
-    });
+            reponces: {
+                where: {
+                    status: true,
+                },
+            },
+        },
+    })
     return getUserQuestions;
     /* 
     return new Promise((resolve, reject) => {

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+
+    <title>Subject Management</title>
+</head>
+
+<body>
+    <header>
+        <div id="abc">
+
+            {{> header}}
+
+        </div>
+    </header>
+
+    <div class="background">
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    <div class="wrapper">
+
+
+        <div class="container">
+
+            <div id="addQuestion" class="block addQuestion1">
+                <div class="AddQuestionWrapper">
+                    <form action="/teacher/insert/question" method="post">
+                        {{#if insertMessage}}
+                        <div class="greenMessage">{{insertMessage}}</div>
+                        {{/if}}
+                        <h3>SUBJECT MANAGEMENT</h3>
+                        <div id="message" class="message"></div>
+
+                        <label for="question">Subject</label>
+                        <input type="text" placeholder="Enter the Subject" name="question" class="inputText"
+                            id="question">
+                        
+                        <select class="inputText" name="test" id="test">
+                            {{#each allSubject}}
+                            <option value="{{this.subject_index}}">{{this.title}}</option>
+                            {{/each}}
+                        </select>
+                        <div id="inputAnswers" class="inputAnswers">
+
+                        </div>
+                        <button type="submit" style="position: relative;right:5px;">Submit</button>
+                    </form>
+                </div>
+            </div>
+            
+
+        </div>
+
+    </div>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/toggle.js"></script>
+    <script src="/js/dashboard.js"></script>
+</body>
+
+</html>
