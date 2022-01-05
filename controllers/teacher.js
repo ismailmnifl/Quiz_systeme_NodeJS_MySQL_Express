@@ -17,6 +17,7 @@ const db = mysql.createConnection({
 });
 
 const getAllquestion = async(userId) => {
+
     const getUserQuestions = await prisma.questions.findMany({
         where: {
             user_index: userId,
@@ -35,7 +36,7 @@ const getAllquestion = async(userId) => {
         },
     })
     return getUserQuestions;
-    /* 
+    /*
     return new Promise((resolve, reject) => {
         db.query(`
             SELECT * FROM questions
