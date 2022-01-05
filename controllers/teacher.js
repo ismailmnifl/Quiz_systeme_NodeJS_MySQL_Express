@@ -6,7 +6,7 @@ global.env = secureEnv({ secret: 'mySecretPassword' });
 //setting up prisma envirement
 const { PrismaClient } = require('@prisma/client');
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({});
 
 const db = mysql.createConnection({
 
@@ -36,26 +36,6 @@ const getAllquestion = async(userId) => {
         },
     })
     return getUserQuestions;
-    /*
-    return new Promise((resolve, reject) => {
-        db.query(`
-            SELECT * FROM questions
-            INNER JOIN reponces
-            ON reponces.question_index = questions.question_index
-            INNER JOIN users
-            ON users.user_index = questions.user_index
-            where reponces.status = true
-            AND users.user_index = ${userId}
-    
-        `, (error, results) => {
-            if (error) {
-                reject(error);
-                return;
-            }
-            resolve(results)
-
-        });
-    }) */
 }
 
 
